@@ -7,6 +7,8 @@
   --muted:#56727a;
   --line:#003845;
   --ui:#f5f8f9;
+  --top-gradient:linear-gradient(90deg,#0CA868 0%,#0DA9A6 48%,#268CAB 100%);
+  --bottom-gradient:linear-gradient(90deg,#268CAB 0%,#0DA9A6 52%,#0CA868 100%);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;background:#eef2f3;color:var(--ink)}
@@ -24,8 +26,15 @@ body{font-family:"Sakkal Majalla","Traditional Arabic","Tahoma","Arial",sans-ser
 .page-wrap{padding:8px 12px 28px;overflow-x:auto}
 .sheet{
   width:min(190.5mm,100%);min-height:275mm;margin:0 auto;background:var(--paper);position:relative;
-  padding:5mm 7.5mm 17mm;box-shadow:0 4px 20px rgba(0,56,69,.12);overflow:hidden
+  padding:9mm 7.5mm 17mm;box-shadow:0 4px 20px rgba(0,56,69,.12);overflow:hidden
 }
+.sheet::before,.print-card-clone::before{content:"";position:absolute;top:0;left:0;right:0;height:4.5mm;background:var(--top-gradient);z-index:0}
+.sheet > *,.print-card-clone > *{position:relative;z-index:1}
+.program-kind-tabs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:0 auto 3mm;width:min(120mm,100%);border:1px solid #b8d2d8;border-radius:10px;overflow:hidden;background:#fff;font-family:Tahoma,Arial,sans-serif}
+.program-kind-tab{min-height:10mm;border:0;background:#fff;color:var(--ink);font:700 12.5pt Tahoma,Arial,sans-serif;cursor:pointer;padding:1.5mm 4mm}
+.program-kind-tab + .program-kind-tab{border-right:1px solid #c9dde1}
+.program-kind-tab.active{background:linear-gradient(135deg,#0CA868,#268CAB);color:#fff}
+.program-kind-tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .identity{
   display:grid;grid-template-columns:1.35fr 1.2fr .8fr;gap:5mm;align-items:end;
   min-height:13mm;margin-bottom:2mm;font-size:13pt
@@ -122,14 +131,14 @@ textarea.control{resize:none;display:block;padding:1.5mm 1.2mm;text-align:right;
 .signature-actions .danger{color:#8b2d2d}
 .note{font-size:13pt;line-height:1.12;margin:3mm 7mm 0;padding-right:4mm;position:relative}
 .note::before{content:"•";position:absolute;right:0;top:0}
-.footer{position:absolute;left:0;right:0;bottom:0;height:6.7mm;overflow:hidden}
-.footer img{display:block;width:100%;height:100%;object-fit:fill}
+.footer{position:absolute;left:0;right:0;bottom:0;height:6.7mm;overflow:hidden;background:var(--bottom-gradient)}
+.footer img{display:none}
 .source-note{display:none}
 
 .pdf-preview{display:none;position:fixed;inset:0;z-index:-1;background:#fff;overflow:hidden;pointer-events:none}
 .pdf-preview.pdf-capture{display:block!important;top:0!important;left:0!important;width:210mm!important;height:297mm!important;padding:0!important;margin:0!important;background:#fff!important}
 .print-page{width:210mm;height:297mm;background:#fff;overflow:hidden;margin:0;position:relative}
-.print-card-clone{width:190mm;height:277mm;margin:10mm auto;position:relative;padding:0 0 8mm;background:#fff;box-shadow:none;overflow:hidden;color:var(--ink);direction:rtl}
+.print-card-clone{width:190mm;height:277mm;margin:10mm auto;position:relative;padding:5.5mm 0 8mm;background:#fff;box-shadow:none;overflow:hidden;color:var(--ink);direction:rtl}
 .print-header-compact{margin:0 0 1.6mm;display:block;clear:both}
 .native-print-header{display:none}
 .print-card-clone .native-print-header{display:block!important}
@@ -139,8 +148,8 @@ textarea.control{resize:none;display:block;padding:1.5mm 1.2mm;text-align:right;
 .print-logo-mark img{width:29mm;max-height:19mm;object-fit:contain;display:block}
 .print-logo-fallback{display:none;line-height:1.2;font-family:Tahoma,Arial,sans-serif;font-size:9pt;font-weight:700;color:var(--ink)}
 .print-school-lines{text-align:right;color:var(--ink);font-weight:700;line-height:1.45;font-family:Tahoma,Arial,sans-serif}
-.print-school-lines .edu-line{display:block;font-size:10.5pt;white-space:nowrap;margin-bottom:1mm}
-.print-school-lines .school-line{display:block;font-size:11.5pt;white-space:nowrap}
+.print-school-lines .edu-line,.print-school-lines .school-line{display:block;font-family:Tahoma,Arial,sans-serif;font-size:11pt;font-weight:700;white-space:nowrap}
+.print-school-lines .edu-line{margin-bottom:1mm}
 .print-card-clone .title{font-size:18pt;margin:1.4mm 0 2.2mm;line-height:1.15;white-space:nowrap}
 .print-card-clone .card-table{font-size:14.7pt}
 .print-card-clone .identity{display:none!important}
@@ -174,10 +183,11 @@ textarea.control{resize:none;display:block;padding:1.5mm 1.2mm;text-align:right;
 @media print{
   html,body{background:#fff}
   .native-print-header{display:block!important}
+  .program-kind-tabs{display:none!important}
   .identity{display:none!important}
   .toolbar{display:none!important}
   .page-wrap{padding:0;overflow:visible}
-  .sheet{width:190mm;min-height:277mm;margin:0;padding:3mm 7mm 14mm;box-shadow:none;overflow:hidden}
+  .sheet{width:190mm;min-height:277mm;margin:0;padding:6mm 7mm 14mm;box-shadow:none;overflow:hidden}
   .identity{min-height:12mm;margin-bottom:1mm}
   .identity-field input,.identity-field select,.control,.sig-input,.sig-date select{
     appearance:none;-webkit-appearance:none;background:transparent!important;box-shadow:none!important
