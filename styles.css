@@ -1,0 +1,194 @@
+:root {
+  --ink:#003845;
+  --band:#D3E8EE;
+  --accent:#268CAB;
+  --green:#0CA868;
+  --paper:#ffffff;
+  --muted:#56727a;
+  --line:#003845;
+  --ui:#f5f8f9;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#eef2f3;color:var(--ink)}
+body{font-family:"Sakkal Majalla","Traditional Arabic","Tahoma","Arial",sans-serif;direction:rtl}
+.toolbar{
+  max-width:940px;margin:18px auto 10px;padding:10px 14px;border:1px solid #d8e1e4;
+  background:#fff;border-radius:12px;display:flex;gap:10px;align-items:center;justify-content:space-between;
+  font-family:Tahoma,Arial,sans-serif;color:#294750;font-size:13px
+}
+.toolbar .actions{display:flex;gap:8px;flex-wrap:wrap}
+.toolbar button{
+  border:1px solid #b9cbd0;background:#fff;color:var(--ink);border-radius:8px;padding:9px 14px;cursor:pointer;font-weight:700
+}
+.toolbar button.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.page-wrap{padding:8px 12px 28px;overflow-x:auto}
+.sheet{
+  width:min(190.5mm,100%);min-height:275mm;margin:0 auto;background:var(--paper);position:relative;
+  padding:5mm 7.5mm 17mm;box-shadow:0 4px 20px rgba(0,56,69,.12);overflow:hidden
+}
+.identity{
+  display:grid;grid-template-columns:1.35fr 1.2fr .8fr;gap:5mm;align-items:end;
+  min-height:13mm;margin-bottom:2mm;font-size:13pt
+}
+.identity-field{display:grid;grid-template-columns:auto 1fr;gap:2mm;align-items:center;min-width:0}
+.identity-field label{font-weight:700;white-space:nowrap}
+.identity-field input,.identity-field select{
+  width:100%;min-width:0;border:0;border-bottom:1px solid var(--ink);border-radius:0;background:transparent;color:var(--ink);
+  font:inherit;padding:1mm 1mm .7mm;outline:none
+}
+.identity-field input:focus,.identity-field select:focus{box-shadow:0 2px 0 var(--accent)}
+#otherAdminWrap{display:none;grid-column:1/3}
+.title{
+  text-align:center;font-size:19pt;font-weight:700;line-height:1.15;margin:2.2mm 0 2.3mm;color:var(--ink);white-space:nowrap
+}
+.card-table{width:100%;border-collapse:collapse;table-layout:fixed;border:1px solid var(--line);font-size:15.5pt;line-height:1.05}
+.card-table col.c1{width:32.59%} .card-table col.c2{width:15.27%}
+.card-table col.c3{width:22.07%} .card-table col.c4{width:8.35%} .card-table col.c5{width:21.72%}
+.card-table th,.card-table td{
+  border:1px solid var(--line);padding:.7mm 1.2mm;text-align:center;vertical-align:middle;color:var(--ink)
+}
+.card-table th{font-weight:700}
+.card-table tr:nth-child(even)>*{background:var(--band)}
+.card-table tr.r1{height:16mm} .card-table tr.r2,.card-table tr.r3,.card-table tr.r4,.card-table tr.r5,.card-table tr.r6,.card-table tr.r7{height:9mm}
+.card-table tr.r8,.card-table tr.r9{height:13mm} .card-table tr.r10{height:18mm}
+.card-table tr.r11{height:26.5mm} .card-table tr.r12{height:18mm} .card-table tr.r13{height:15mm}
+.control{
+  width:100%;height:100%;min-height:7mm;border:0;background:transparent;color:var(--ink);font:inherit;
+  text-align:center;text-align-last:center;outline:none;padding:0 .8mm
+}
+input.control{text-align:right;text-align-last:auto}
+textarea.control{resize:none;display:block;padding:1.5mm 1.2mm;text-align:right;line-height:1.1}
+.control:focus{background:rgba(255,255,255,.42);box-shadow:inset 0 -2px 0 var(--accent)}
+.control:disabled{opacity:1;color:var(--ink);-webkit-text-fill-color:var(--ink);cursor:default}
+.control::placeholder{color:#789099;opacity:.85}
+.date-selects{display:grid;grid-template-columns:.75fr 1.35fr 1fr;gap:.5mm;align-items:center;height:100%}
+.date-selects select{font-size:13pt;padding:0 .2mm}
+.inline-cell{display:flex;gap:.8mm;align-items:center;height:100%}
+.inline-cell .mini-label{font-size:13pt;white-space:nowrap}
+.platform-cell{font-size:12.8pt;line-height:1.14;padding:1mm!important}
+.platform-cell strong{font-weight:400}
+.partnership-label{font-size:13.5pt;line-height:1.05}
+.card-table tr.r8>*{background:#fff!important}
+.semester-options{display:flex;align-items:center;justify-content:center;gap:15mm;height:100%;font:inherit}
+.semester-option{position:relative;display:inline-flex;align-items:center;gap:2mm;cursor:pointer;white-space:nowrap;font:inherit}
+.semester-option input{position:absolute;opacity:0;pointer-events:none}
+.semester-mark{display:inline-flex;align-items:center;justify-content:center;min-width:6mm;font:inherit}
+.semester-mark::before{content:"☐"}
+.semester-option input:checked + .semester-mark::before{content:"☑"}
+.multi-inline-options{display:grid;grid-template-columns:1fr;gap:.45mm;align-items:center;text-align:right;font-family:inherit;font-size:11.2pt;line-height:1.05;padding:.5mm 1mm}
+.multi-inline-option{display:flex;align-items:center;gap:1.3mm;font:inherit;white-space:nowrap;cursor:pointer}
+.multi-inline-option input{position:absolute;opacity:0;pointer-events:none}
+.multi-inline-option .multi-mark{display:inline-flex;align-items:center;justify-content:center;min-width:5mm;font:inherit}
+.multi-inline-option .multi-mark::before{content:"☐"}
+.multi-inline-option input:checked + .multi-mark::before{content:"☑"}
+.multi-inline-option span{font:inherit}
+.signatures{
+  display:grid;grid-template-columns:1fr 1fr;gap:16mm;margin:3.2mm 5mm 0;font-size:15pt
+}
+.signature-block{min-width:0}
+.signature-title{text-align:center;margin-bottom:.5mm;line-height:1}
+.sig-line{display:grid;grid-template-columns:auto 1fr;gap:2mm;align-items:center;min-height:5mm}
+.sig-line label{white-space:nowrap}
+.sig-input{
+  min-width:0;border:0;border-bottom:1px dotted #9ab0b6;background:transparent;color:var(--ink);font:inherit;padding:0 1mm;outline:none
+}
+.sig-input:focus{border-bottom-color:var(--accent)}
+.sig-date{display:grid;grid-template-columns:.75fr 1.3fr 1fr;gap:.7mm}
+.sig-date select{border:0;border-bottom:1px dotted #9ab0b6;background:transparent;color:var(--ink);font:inherit;outline:none}
+.sig-canvas-wrap{position:relative;margin-top:1mm}
+.sig-canvas{width:100%;height:72mm;display:block;border:1px dashed #94aeb7;background:#fff;touch-action:none;border-radius:8px}
+.number-write{font-variant-numeric:normal;text-align:center!important;text-align-last:center!important}
+.multi-select{position:relative;width:100%;font-family:inherit}
+.multi-trigger{width:100%;min-height:9mm;border:0;background:transparent;color:var(--ink);font:inherit;cursor:pointer;padding:1mm 1.5mm;line-height:1.15}
+.multi-trigger.empty{color:#789099}
+.multi-panel{display:none;position:absolute;z-index:30;top:calc(100% + 3px);left:0;right:0;background:#fff;border:1px solid #9db5bc;border-radius:8px;box-shadow:0 8px 24px rgba(0,56,69,.16);padding:6px;text-align:right;max-height:180px;overflow:auto;font:13px Tahoma,Arial,sans-serif}
+.multi-select.open .multi-panel{display:block}
+.multi-option{display:flex;align-items:center;gap:7px;padding:7px 5px;border-radius:5px;cursor:pointer;color:var(--ink)}
+.multi-option:hover{background:#eef6f8}
+.multi-option input{accent-color:var(--accent);width:17px;height:17px;flex:0 0 auto}
+.signature-click{width:100%;height:17mm;border:1px dashed #a7bcc1;background:rgba(211,232,238,.13);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;color:#6b858d;font:12px Tahoma,Arial,sans-serif;padding:0}
+.signature-click.has-signature{border-color:transparent;background:transparent}
+.signature-click img{display:none;width:100%;max-width:100%;max-height:16mm;object-fit:contain}
+.signature-click.has-signature img{display:block}
+.signature-click.has-signature .signature-placeholder{display:none}
+.signature-modal{position:fixed;inset:0;z-index:1000;background:rgba(0,35,43,.58);display:none;align-items:center;justify-content:center;padding:18px;font-family:Tahoma,Arial,sans-serif}
+.signature-modal.open{display:flex}
+.signature-dialog{width:min(760px,96vw);background:#fff;border-radius:14px;padding:16px;box-shadow:0 18px 50px rgba(0,0,0,.24);color:var(--ink)}
+.signature-dialog h2{font-size:18px;margin:0 0 5px;text-align:right}
+.signature-dialog p{font-size:13px;margin:0 0 12px;color:var(--muted);text-align:right}
+.signature-actions{display:flex;gap:8px;justify-content:flex-start;flex-wrap:wrap;margin-top:10px}
+.signature-actions button{border:1px solid #a7bcc1;background:#fff;color:var(--ink);border-radius:8px;padding:9px 15px;cursor:pointer;font-weight:700}
+.signature-actions .approve{background:#1565c0;border-color:#1565c0;color:#fff}
+.signature-actions .danger{color:#8b2d2d}
+.note{font-size:13pt;line-height:1.12;margin:3mm 7mm 0;padding-right:4mm;position:relative}
+.note::before{content:"•";position:absolute;right:0;top:0}
+.footer{position:absolute;left:0;right:0;bottom:0;height:6.7mm;overflow:hidden}
+.footer img{display:block;width:100%;height:100%;object-fit:fill}
+.source-note{display:none}
+
+.pdf-preview{display:none;position:fixed;inset:0;z-index:-1;background:#fff;overflow:hidden;pointer-events:none}
+.pdf-preview.pdf-capture{display:block!important;top:0!important;left:0!important;width:210mm!important;height:297mm!important;padding:0!important;margin:0!important;background:#fff!important}
+.print-page{width:210mm;height:297mm;background:#fff;overflow:hidden;margin:0;position:relative}
+.print-card-clone{width:190mm;height:277mm;margin:10mm auto;position:relative;padding:0 0 8mm;background:#fff;box-shadow:none;overflow:hidden;color:var(--ink);direction:rtl}
+.print-header-compact{margin:0 0 1.6mm;display:block;clear:both}
+.native-print-header{display:none}
+.print-card-clone .native-print-header{display:block!important}
+
+.print-brand-row{display:grid;grid-template-columns:31mm minmax(0,1fr);gap:5mm;align-items:center;margin:0 auto 2.4mm;max-width:155mm;direction:rtl}
+.print-logo-mark{text-align:center;line-height:0;border-left:1px solid #b7bdc1;padding-left:5mm;min-height:19mm;display:flex;align-items:center;justify-content:center}
+.print-logo-mark img{width:29mm;max-height:19mm;object-fit:contain;display:block}
+.print-logo-fallback{display:none;line-height:1.2;font-family:Tahoma,Arial,sans-serif;font-size:9pt;font-weight:700;color:var(--ink)}
+.print-school-lines{text-align:right;color:var(--ink);font-weight:700;line-height:1.45;font-family:Tahoma,Arial,sans-serif}
+.print-school-lines .edu-line{display:block;font-size:10.5pt;white-space:nowrap;margin-bottom:1mm}
+.print-school-lines .school-line{display:block;font-size:11.5pt;white-space:nowrap}
+.print-card-clone .title{font-size:18pt;margin:1.4mm 0 2.2mm;line-height:1.15;white-space:nowrap}
+.print-card-clone .card-table{font-size:14.7pt}
+.print-card-clone .identity{display:none!important}
+.print-card-clone .static-value{display:block;width:100%;text-align:center;color:var(--ink);font:inherit;line-height:1.1;white-space:normal;overflow-wrap:anywhere}
+.print-card-clone .static-value.text-right{text-align:right}
+.print-card-clone .numeric-date{display:flex;align-items:center;justify-content:center;width:100%;direction:ltr;unicode-bidi:embed;font:inherit;white-space:nowrap}
+.print-card-clone .semester-print-options,.print-card-clone .madrasati-print-options{display:flex;align-items:center;justify-content:center;gap:7mm;flex-wrap:wrap;width:100%;font:inherit}
+.print-card-clone .madrasati-print-options{display:grid;grid-template-columns:1fr;gap:.35mm;text-align:right;justify-items:start;padding:.6mm 1.3mm;font-family:inherit;font-size:10.8pt;line-height:1.04}
+.print-card-clone .print-choice{font:inherit;white-space:nowrap}
+.print-card-clone .print-signature-box{height:18mm;width:100%;display:flex;align-items:center;justify-content:center;background:#fff;overflow:hidden}
+.print-card-clone .print-signature-box img{display:block;width:100%;height:17mm;object-fit:contain}
+.print-card-clone .signatures{gap:13mm;margin:3mm 3mm 0;font-size:14.6pt}
+.print-card-clone .sig-input,.print-card-clone .sig-date{border:0}
+.print-card-clone .note{font-size:12.5pt;margin-top:2.2mm}
+.print-card-clone .footer{height:6mm}
+
+@media (max-width:760px){
+  .toolbar{margin:8px 10px}
+  .toolbar .help{display:none}
+  .page-wrap{padding:0 6px 20px}
+  .sheet{padding-left:4mm;padding-right:4mm}
+  .identity{grid-template-columns:1fr;gap:2mm;font-size:11pt}
+  #otherAdminWrap{grid-column:auto}
+  .title{font-size:17pt}
+  .card-table{font-size:12.2pt}
+  .date-selects select{font-size:10.5pt}
+  .platform-cell{font-size:10pt}
+  .signatures{gap:8mm;margin-left:2mm;margin-right:2mm;font-size:12pt}
+}
+@page{size:A4 portrait;margin:10mm}
+@media print{
+  html,body{background:#fff}
+  .native-print-header{display:block!important}
+  .identity{display:none!important}
+  .toolbar{display:none!important}
+  .page-wrap{padding:0;overflow:visible}
+  .sheet{width:190mm;min-height:277mm;margin:0;padding:3mm 7mm 14mm;box-shadow:none;overflow:hidden}
+  .identity{min-height:12mm;margin-bottom:1mm}
+  .identity-field input,.identity-field select,.control,.sig-input,.sig-date select{
+    appearance:none;-webkit-appearance:none;background:transparent!important;box-shadow:none!important
+  }
+  .control::placeholder,.sig-input::placeholder{color:transparent}
+  .signature-modal{display:none!important}
+  .multi-panel{display:none!important}
+  .multi-trigger{appearance:none;-webkit-appearance:none;cursor:default}
+  .multi-trigger.empty{color:transparent}
+  .signature-click{border-color:transparent;background:transparent;cursor:default}
+  .signature-click:not(.has-signature) .signature-placeholder{visibility:hidden}
+  .source-note{display:none}
+  .footer{height:6mm}
+}
