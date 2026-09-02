@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>بطاقة تنفيذ برنامج نشاط طلابي ١٤٤٨هـ</title>
+<link rel="stylesheet" href="styles.css">
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+</head>
+<body>
+<div class="toolbar">
+  <div class="help">صفحة تفاعلية مطابقة للبطاقة الأصلية — اختر المرحلة أولًا ليتم تحميل البرامج المناسبة.</div>
+  <div class="actions">
+    <button type="button" id="resetBtn">مسح النموذج</button>
+    <button type="button" class="primary" id="printBtn">طباعة البطاقة</button>
+  </div>
+</div>
+
+<div class="page-wrap">
+<main class="sheet" id="sheet">
+  <header id="nativePrintHeader" class="print-header-compact native-print-header">
+    <div class="print-brand-row">
+      <div class="print-logo-mark"><img src="logomoe.svg" alt="شعار وزارة التعليم"></div>
+      <div class="print-school-lines"><span id="nativePrintAdmin" class="edu-line">الإدارة التعليمية</span><span id="nativePrintSchool" class="school-line">اسم المدرسة</span></div>
+    </div>
+  </header>
+  <section class="identity" aria-label="بيانات المدرسة">
+    <div class="identity-field">
+      <label for="eduAdmin">الإدارة التعليمية:</label>
+      <select id="eduAdmin">
+        <option value="">اختر الإدارة التعليمية</option>
+        <option value="الإدارة العامة للتعليم بمنطقة الرياض">الإدارة العامة للتعليم بمنطقة الرياض</option>
+<option value="الإدارة العامة للتعليم بمنطقة مكة المكرمة">الإدارة العامة للتعليم بمنطقة مكة المكرمة</option>
+<option value="الإدارة العامة للتعليم بمنطقة المدينة المنورة">الإدارة العامة للتعليم بمنطقة المدينة المنورة</option>
+<option value="الإدارة العامة للتعليم بمنطقة القصيم">الإدارة العامة للتعليم بمنطقة القصيم</option>
+<option value="الإدارة العامة للتعليم بالمنطقة الشرقية">الإدارة العامة للتعليم بالمنطقة الشرقية</option>
+<option value="الإدارة العامة للتعليم بمنطقة عسير">الإدارة العامة للتعليم بمنطقة عسير</option>
+<option value="الإدارة العامة للتعليم بمنطقة تبوك">الإدارة العامة للتعليم بمنطقة تبوك</option>
+<option value="الإدارة العامة للتعليم بمنطقة حائل">الإدارة العامة للتعليم بمنطقة حائل</option>
+<option value="الإدارة العامة للتعليم بمنطقة الحدود الشمالية">الإدارة العامة للتعليم بمنطقة الحدود الشمالية</option>
+<option value="الإدارة العامة للتعليم بمنطقة جازان">الإدارة العامة للتعليم بمنطقة جازان</option>
+<option value="الإدارة العامة للتعليم بمنطقة نجران">الإدارة العامة للتعليم بمنطقة نجران</option>
+<option value="الإدارة العامة للتعليم بمنطقة الباحة">الإدارة العامة للتعليم بمنطقة الباحة</option>
+<option value="الإدارة العامة للتعليم بمنطقة الجوف">الإدارة العامة للتعليم بمنطقة الجوف</option>
+<option value="الإدارة العامة للتعليم بمحافظة جدة">الإدارة العامة للتعليم بمحافظة جدة</option>
+<option value="الإدارة العامة للتعليم بمحافظة الطائف">الإدارة العامة للتعليم بمحافظة الطائف</option>
+<option value="الإدارة العامة للتعليم بمحافظة الأحساء">الإدارة العامة للتعليم بمحافظة الأحساء</option>
+<option value="إدارة التعليم بمحافظة حفر الباطن">إدارة التعليم بمحافظة حفر الباطن</option>
+<option value="إدارة التعليم بمحافظة ينبع">إدارة التعليم بمحافظة ينبع</option>
+<option value="إدارة التعليم بمحافظة الخرج">إدارة التعليم بمحافظة الخرج</option>
+<option value="إدارة التعليم بمحافظة الدوادمي">إدارة التعليم بمحافظة الدوادمي</option>
+<option value="إدارة التعليم بمحافظة المجمعة">إدارة التعليم بمحافظة المجمعة</option>
+<option value="إدارة التعليم بمحافظة شقراء">إدارة التعليم بمحافظة شقراء</option>
+<option value="إدارة التعليم بمحافظة الزلفي">إدارة التعليم بمحافظة الزلفي</option>
+<option value="إدارة التعليم بمحافظة القويعية">إدارة التعليم بمحافظة القويعية</option>
+<option value="إدارة التعليم بمحافظة وادي الدواسر">إدارة التعليم بمحافظة وادي الدواسر</option>
+<option value="إدارة التعليم بمحافظة عفيف">إدارة التعليم بمحافظة عفيف</option>
+<option value="إدارة التعليم بمحافظة القنفذة">إدارة التعليم بمحافظة القنفذة</option>
+<option value="إدارة التعليم بمحافظة الليث">إدارة التعليم بمحافظة الليث</option>
+<option value="أخرى">أخرى</option>
+      </select>
+    </div>
+    <div class="identity-field">
+      <label for="schoolName">اسم المدرسة:</label>
+      <input id="schoolName" type="text" autocomplete="organization" placeholder="اكتب اسم المدرسة">
+    </div>
+    <div class="identity-field">
+      <label for="stage">المرحلة:</label>
+      <select id="stage">
+        <option value="">اختر المرحلة</option>
+        <option value="initial">الصفوف الأولية</option>
+        <option value="upper">الصفوف العليا</option>
+        <option value="middle">المرحلة المتوسطة</option>
+        <option value="secondary">المرحلة الثانوية</option>
+      </select>
+    </div>
+    <div class="identity-field" id="otherAdminWrap">
+      <label for="otherAdmin">اسم الإدارة:</label>
+      <input id="otherAdmin" type="text" placeholder="اكتب اسم الإدارة التعليمية">
+    </div>
+  </section>
+
+  <h1 class="title">بطاقة تنفيذ برنامج نشاط طلابي*</h1>
+
+  <table class="card-table" aria-label="بطاقة تنفيذ برنامج نشاط طلابي">
+    <colgroup><col class="c1"><col class="c2"><col class="c3"><col class="c4"><col class="c5"></colgroup>
+    <tbody>
+      <tr class="r1">
+        <th scope="row">اسم البرنامج</th>
+        <td colspan="4"><select id="program" class="control" disabled><option value="">اختر المرحلة أولًا</option></select></td>
+      </tr>
+      <tr class="r2">
+        <th scope="row">المجال</th>
+        <td colspan="4"><select id="field" class="control" disabled><option value="">يُحدد تلقائيًا من البرنامج</option></select></td>
+      </tr>
+      <tr class="r3">
+        <th scope="row">عدد حصص البرنامج</th>
+        <td colspan="4"><select id="sessions" class="control" disabled><option value="">يُحدد تلقائيًا من ملف البرامج</option></select></td>
+      </tr>
+      <tr class="r4">
+        <th scope="row">الفصل الدراسي</th>
+        <td colspan="4">
+          <div class="semester-options" id="semesterOptions" role="radiogroup" aria-label="الفصل الدراسي">
+            <label class="semester-option"><input type="radio" name="semester" value="الأول"><span class="semester-mark" aria-hidden="true"></span><span>الأول</span></label>
+            <label class="semester-option"><input type="radio" name="semester" value="الثاني"><span class="semester-mark" aria-hidden="true"></span><span>الثاني</span></label>
+          </div>
+        </td>
+      </tr>
+      <tr class="r5">
+        <th scope="row">بداية التنفيذ</th>
+        <td><div class="inline-cell"><span class="mini-label">اليوم:</span><select id="startDayName" class="control day-select"></select></div></td>
+        <td><div class="inline-cell"><span class="mini-label">الأسبوع:</span><select id="startWeek" class="control week-select"></select></div></td>
+        <td colspan="2"><div class="inline-cell"><span class="mini-label">التاريخ:</span><div class="date-selects" id="startDate"></div></div></td>
+      </tr>
+      <tr class="r6">
+        <th scope="row">نهاية التنفيذ</th>
+        <td><div class="inline-cell"><span class="mini-label">اليوم:</span><select id="endDayName" class="control day-select"></select></div></td>
+        <td><div class="inline-cell"><span class="mini-label">الأسبوع:</span><select id="endWeek" class="control week-select"></select></div></td>
+        <td colspan="2"><div class="inline-cell"><span class="mini-label">التاريخ:</span><div class="date-selects" id="endDate"></div></div></td>
+      </tr>
+      <tr class="r7">
+        <th scope="row">الصف</th>
+        <td colspan="4"><select id="grade" class="control" disabled><option value="">اختر المرحلة أولًا</option></select></td>
+      </tr>
+      <tr class="r8">
+        <th scope="row">المعلم/ة المنفذ/ة</th>
+        <td colspan="4"><input id="teacherName" class="control" type="text" placeholder="اكتب اسم المعلم/ة المنفذ/ة"></td>
+      </tr>
+      <tr class="r9">
+        <th scope="row">عدد الطلبة<br>المشاركين</th>
+        <td colspan="4"><input id="studentCount" class="control number-write" type="text" inputmode="numeric" autocomplete="off" placeholder="اكتب العدد"></td>
+      </tr>
+      <tr class="r10">
+        <th scope="row">عدد الطلبة<br>المشاركين من ذوي<br>الإعاقة</th>
+        <td colspan="4"><select id="disabilityCount" class="control count-select"></select></td>
+      </tr>
+      <tr class="r11">
+        <th scope="row">عدد أولياء الأمور<br>المشاركين في<br>البرنامج</th>
+        <td><select id="parentCount" class="control count-select"></select></td>
+        <td colspan="2" class="platform-cell"><strong>عند تنفيذ المشاركة عبر<br>منصة مدرستي ماهي<br>أيقونة التنفيذ:</strong></td>
+        <td>
+          <div class="multi-inline-options" id="madrasatiPanel" role="group" aria-label="اختيار أيقونات التنفيذ في منصة مدرستي">
+            <label class="multi-inline-option"><input type="checkbox" value="بنك الإثراءات"><span class="multi-mark" aria-hidden="true"></span><span>بنك الإثراءات</span></label>
+            <label class="multi-inline-option"><input type="checkbox" value="التطوير الذاتي"><span class="multi-mark" aria-hidden="true"></span><span>التطوير الذاتي</span></label>
+            <label class="multi-inline-option"><input type="checkbox" value="قيمنا الغالية"><span class="multi-mark" aria-hidden="true"></span><span>قيمنا الغالية</span></label>
+            <label class="multi-inline-option"><input type="checkbox" value="نادي القراءة"><span class="multi-mark" aria-hidden="true"></span><span>نادي القراءة</span></label>
+          </div>
+        </td>
+      </tr>
+      <tr class="r12">
+        <th scope="row">عدد الشراكات<br>المجتمعية</th>
+        <td><select id="partnershipCount" class="control"></select></td>
+        <td colspan="2" class="partnership-label">أسماء الشراكات<br>المجتمعية</td>
+        <td><input id="partnershipNames" class="control" type="text" placeholder="اكتب الأسماء"></td>
+      </tr>
+      <tr class="r13">
+        <th scope="row">ملاحظات</th>
+        <td colspan="4"><textarea id="notes" class="control" aria-label="ملاحظات"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <section class="signatures" aria-label="التواقيع">
+    <div class="signature-block">
+      <div class="signature-title">المعلم/ة المنفذ/ة</div>
+      <div class="sig-line"><label for="teacherSignName">الاسم:</label><input id="teacherSignName" class="sig-input" type="text"></div>
+      <div class="sig-line"><label>التاريخ:</label><div class="sig-date" id="teacherSignDate"></div></div>
+      <div class="sig-line"><label>التوقيع</label><div></div></div>
+      <button type="button" class="signature-click" data-signature="teacherSignature" aria-label="إضافة توقيع المعلم أو المعلمة">
+        <span class="signature-placeholder">اضغط هنا للتوقيع</span><img alt="توقيع المعلم/ة المعتمد">
+      </button>
+    </div>
+    <div class="signature-block">
+      <div class="signature-title">رائد/ة النشاط</div>
+      <div class="sig-line"><label for="leaderName">الاسم:</label><input id="leaderName" class="sig-input" type="text" placeholder=""></div>
+      <div class="sig-line"><label>التاريخ:</label><div class="sig-date" id="leaderSignDate"></div></div>
+      <div class="sig-line"><label>التوقيع</label><div></div></div>
+      <button type="button" class="signature-click" data-signature="leaderSignature" aria-label="إضافة توقيع رائد أو رائدة النشاط">
+        <span class="signature-placeholder">اضغط هنا للتوقيع</span><img alt="توقيع رائد/ة النشاط المعتمد">
+      </button>
+    </div>
+  </section>
+
+  <div class="source-note" id="sourceNote"></div>
+  <p class="note">يتم تعبئة هذه البطاقة عند استكمال الحصص المخصصة للبرنامج وفق ما ورد للبرنامج من حصص في دليل الخطط الدراسية / الإصدار السادس.</p>
+  <footer class="footer"><img src="footer.svg" alt=""></footer>
+</main>
+</div>
+
+
+<section id="pdfPreview" class="pdf-preview" aria-hidden="true"></section>
+
+<div class="signature-modal" id="signatureModal" role="dialog" aria-modal="true" aria-labelledby="signatureModalTitle">
+  <div class="signature-dialog">
+    <h2 id="signatureModalTitle">التوقيع اليدوي</h2>
+    <p>وقّع بالماوس أو اللمس داخل المساحة البيضاء، ثم اضغط «اعتماد التوقيع».</p>
+    <canvas class="sig-canvas" id="signaturePad" aria-label="مساحة التوقيع اليدوي"></canvas>
+    <div class="signature-actions">
+      <button type="button" class="approve" id="approveSignature">اعتماد التوقيع</button>
+      <button type="button" id="clearSignaturePad">مسح</button>
+      <button type="button" id="cancelSignature">إلغاء</button>
+      <button type="button" class="danger" id="removeApprovedSignature">حذف التوقيع المعتمد</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
