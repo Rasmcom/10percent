@@ -9,6 +9,8 @@
   const sourceNote=document.getElementById("sourceNote");
   const eduAdmin=document.getElementById("eduAdmin");
   const otherAdminWrap=document.getElementById("otherAdminWrap");
+  const programKindTabs=[...document.querySelectorAll(".program-kind-tab")];
+  let programKind="classroom";
 
   const gradeMap={
     initial:["الصف الأول الابتدائي","الصف الثاني الابتدائي","الصف الثالث الابتدائي"],
@@ -63,10 +65,14 @@
       gradeEl.disabled=true;gradeEl.innerHTML="";gradeEl.appendChild(option("","اختر المرحلة أولًا"));
       return;
     }
-    const available=PROGRAMS.filter(p=>Number(p[stage])>0);
+    const available=PROGRAMS.filter(p=>{
+      if(Number(p[stage])<=0)return false;
+      const isNonClass=p.field==="الفترات اللاصفية";
+      return programKind==="nonclass"?isNonClass:!isNonClass;
+    });
     const groups=new Map();
     available.forEach(p=>{ if(!groups.has(p.field)) groups.set(p.field,[]); groups.get(p.field).push(p); });
-    programEl.appendChild(option("","اختر اسم البرنامج"));
+    programEl.appendChild(option("",programKind==="nonclass"?"اختر برنامج الفترة اللاصفية":"اختر اسم البرنامج"));
     for(const [field,items] of groups){
       const g=document.createElement("optgroup");g.label=field;
       items.forEach(p=>{ const o=option(String(p.id),p.program);o.dataset.field=p.field;o.dataset.sessions=p[stage];o.dataset.note=p.note||"";g.appendChild(o); });
@@ -97,6 +103,16 @@
     sourceNote.textContent=p.note ? toArabicDigits("ملاحظة الدليل: "+p.note) : "";
   }
 
+  function setProgramKind(kind){
+    programKind=kind==="nonclass"?"nonclass":"classroom";
+    programKindTabs.forEach(btn=>{
+      const active=btn.dataset.programKind===programKind;
+      btn.classList.toggle("active",active);
+      btn.setAttribute("aria-pressed",active?"true":"false");
+    });
+    rebuildPrograms();
+  }
+  programKindTabs.forEach(btn=>btn.addEventListener("click",()=>setProgramKind(btn.dataset.programKind)));
   stageEl.addEventListener("change",()=>{rebuildPrograms();});
   programEl.addEventListener("change",syncProgram);
   eduAdmin.addEventListener("change",()=>{otherAdminWrap.style.display=eduAdmin.value==="أخرى"?"grid":"none";});
@@ -211,6 +227,7 @@
     const clone=source.cloneNode(true);copyLiveFormState(source,clone);
     clone.removeAttribute("id");clone.className="print-card-clone";
     clone.querySelector(".identity")?.remove();
+    clone.querySelector(".program-kind-tabs")?.remove();
     clone.querySelector("#nativePrintHeader")?.remove();
     const header=document.createElement("header");header.className="print-header-compact";
     const admin=currentAdminName()||"الإدارة التعليمية",school=(document.getElementById("schoolName")?.value||"").trim()||"اسم المدرسة";
@@ -282,7 +299,7 @@
     document.getElementById("otherAdminWrap").style.display="none";
     signNameEdited=false;sourceNote.textContent="";
     removeApproved("teacherSignature");removeApproved("leaderSignature");
-    stageEl.value="";rebuildPrograms();
+    stageEl.value="";setProgramKind("classroom");
     ["startDate","endDate","teacherSignDate","leaderSignDate"].forEach(id=>{
       const sels=document.getElementById(id).querySelectorAll("select");
       sels.forEach((s,i)=>{s.selectedIndex=i===2?1:0;});
