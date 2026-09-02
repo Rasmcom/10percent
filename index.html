@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="toolbar">
-  <div class="help">صفحة تفاعلية مطابقة للبطاقة الأصلية — اختر المرحلة أولًا ليتم تحميل البرامج المناسبة.</div>
+  <div class="help">اختر نوع البرنامج ثم المرحلة؛ تظهر البرامج والحصص المعتمدة تلقائيًا حسب المرحلة.</div>
   <div class="actions">
     <button type="button" id="resetBtn">مسح النموذج</button>
     <button type="button" class="primary" id="printBtn">طباعة البطاقة</button>
@@ -26,6 +26,10 @@
       <div class="print-school-lines"><span id="nativePrintAdmin" class="edu-line">الإدارة التعليمية</span><span id="nativePrintSchool" class="school-line">اسم المدرسة</span></div>
     </div>
   </header>
+  <nav class="program-kind-tabs" id="programKindTabs" aria-label="نوع البرنامج">
+    <button type="button" class="program-kind-tab active" data-program-kind="classroom" aria-pressed="true">البرامج الصفية</button>
+    <button type="button" class="program-kind-tab" data-program-kind="nonclass" aria-pressed="false">الفترات اللاصفية</button>
+  </nav>
   <section class="identity" aria-label="بيانات المدرسة">
     <div class="identity-field">
       <label for="eduAdmin">الإدارة التعليمية:</label>
