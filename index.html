@@ -9,12 +9,11 @@
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
-<style id="unifiedFontAndPersistenceStyle">
-:root{--app-font:Tahoma,Arial,sans-serif}
-html,body,button,input,select,textarea,table,.sheet,.sheet *,.print-page,.print-page *,.print-card-clone,.print-card-clone *{font-family:var(--app-font)!important}
-.print-school-lines,.print-school-lines .edu-line,.print-school-lines .school-line{font-family:var(--app-font)!important;font-size:11pt!important;font-weight:700!important}
+<style id="localPersistenceStyle">
 #resetBtn{display:none!important}
-@media print{html,body,.sheet,.sheet *{font-family:var(--app-font)!important}}
+.print-school-lines,.print-school-lines .edu-line,.print-school-lines .school-line{
+  font-family:"Sakkal Majalla","Traditional Arabic","Tahoma","Arial",sans-serif!important;
+}
 </style>
 </head>
 <body>
