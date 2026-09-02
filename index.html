@@ -8,6 +8,14 @@
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+<style id="unifiedFontAndPersistenceStyle">
+:root{--app-font:Tahoma,Arial,sans-serif}
+html,body,button,input,select,textarea,table,.sheet,.sheet *,.print-page,.print-page *,.print-card-clone,.print-card-clone *{font-family:var(--app-font)!important}
+.print-school-lines,.print-school-lines .edu-line,.print-school-lines .school-line{font-family:var(--app-font)!important;font-size:11pt!important;font-weight:700!important}
+#resetBtn{display:none!important}
+@media print{html,body,.sheet,.sheet *{font-family:var(--app-font)!important}}
+</style>
 </head>
 <body>
 <div class="toolbar">
@@ -212,6 +220,105 @@
 
 <script src="programs.js"></script>
 <script src="app.js"></script>
+
+<script>
+(() => {
+  "use strict";
+  const STORAGE_KEY="rasm_activity_execution_card_state_v1";
+  const fieldIds=[
+    "eduAdmin","otherAdmin","schoolName","stage","program","grade",
+    "startDayName","startWeek","endDayName","endWeek",
+    "teacherName","studentCount","disabilityCount","parentCount",
+    "partnershipCount","partnershipNames","notes","teacherSignName","leaderName"
+  ];
+  const dateIds=["startDate","endDate","teacherSignDate","leaderSignDate"];
+  let restoring=false,saveTimer=null;
+
+  const selectedProgramKind=()=>document.querySelector('.program-kind-tab.active')?.dataset.programKind||"classroom";
+  const signatureState=()=>{
+    const out={};
+    document.querySelectorAll('.signature-click[data-signature]').forEach(btn=>{
+      const img=btn.querySelector('img');
+      if(btn.classList.contains('has-signature')&&img?.getAttribute('src'))out[btn.dataset.signature]=img.getAttribute('src');
+    });
+    return out;
+  };
+  function collect(){
+    const values={};
+    fieldIds.forEach(id=>{const el=document.getElementById(id);if(el)values[id]=el.value;});
+    const dates={};
+    dateIds.forEach(id=>{const el=document.getElementById(id);if(el)dates[id]=[...el.querySelectorAll('select')].map(x=>x.value);});
+    return {
+      version:1,programKind:selectedProgramKind(),values,dates,
+      semester:document.querySelector('input[name="semester"]:checked')?.value||"",
+      madrasati:[...document.querySelectorAll('#madrasatiPanel input[type="checkbox"]:checked')].map(x=>x.value),
+      signatures:signatureState()
+    };
+  }
+  function saveNow(){
+    if(restoring)return;
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(collect()));}
+    catch(e){console.warn('تعذر حفظ بيانات البطاقة محليًا',e);}
+  }
+  function scheduleSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveNow,120);}
+  function read(){try{const raw=localStorage.getItem(STORAGE_KEY);return raw?JSON.parse(raw):null}catch(e){return null}}
+  function setIfPossible(id,value){const el=document.getElementById(id);if(el&&value!=null)el.value=String(value);}
+  function restore(){
+    const state=read();if(!state||typeof state!=="object")return;
+    restoring=true;
+    try{
+      const v=state.values||{};
+      setIfPossible('eduAdmin',v.eduAdmin);
+      setIfPossible('otherAdmin',v.otherAdmin);
+      setIfPossible('schoolName',v.schoolName);
+      document.getElementById('eduAdmin')?.dispatchEvent(new Event('change',{bubbles:true}));
+
+      const kind=state.programKind==='nonclass'?'nonclass':'classroom';
+      const kindBtn=document.querySelector(`.program-kind-tab[data-program-kind="${kind}"]`);
+      if(kindBtn&&!kindBtn.classList.contains('active'))kindBtn.click();
+
+      setIfPossible('stage',v.stage);
+      document.getElementById('stage')?.dispatchEvent(new Event('change',{bubbles:true}));
+      const program=document.getElementById('program');
+      if(program&&v.program!=null&&[...program.options].some(o=>o.value===String(v.program))){program.value=String(v.program);program.dispatchEvent(new Event('change',{bubbles:true}));}
+      const grade=document.getElementById('grade');
+      if(grade&&v.grade!=null&&[...grade.options].some(o=>o.value===String(v.grade)))grade.value=String(v.grade);
+
+      fieldIds.filter(id=>!["eduAdmin","otherAdmin","schoolName","stage","program","grade"].includes(id)).forEach(id=>setIfPossible(id,v[id]));
+      dateIds.forEach(id=>{
+        const values=Array.isArray(state.dates?.[id])?state.dates[id]:[];
+        const holder=document.getElementById(id);
+        const selects=holder?[...holder.querySelectorAll('select')]:[];
+        selects.forEach((el,i)=>{if(values[i]!=null&&[...el.options].some(o=>o.value===String(values[i])))el.value=String(values[i]);});
+      });
+      document.querySelectorAll('input[name="semester"]').forEach(r=>r.checked=r.value===state.semester);
+      const icons=new Set(Array.isArray(state.madrasati)?state.madrasati:[]);
+      document.querySelectorAll('#madrasatiPanel input[type="checkbox"]').forEach(c=>{c.checked=icons.has(c.value);c.dispatchEvent(new Event('change',{bubbles:true}));});
+      Object.entries(state.signatures||{}).forEach(([id,src])=>{
+        const btn=document.querySelector(`.signature-click[data-signature="${id}"]`),img=btn?.querySelector('img');
+        if(btn&&img&&typeof src==='string'&&src.startsWith('data:image/')){img.src=src;btn.classList.add('has-signature');}
+      });
+      document.getElementById('schoolName')?.dispatchEvent(new Event('input',{bubbles:true}));
+    }finally{restoring=false;}
+  }
+
+  const reset=document.getElementById('resetBtn');
+  if(reset){reset.hidden=true;reset.disabled=true;reset.setAttribute('aria-hidden','true');}
+  const help=document.querySelector('.toolbar .help');
+  if(help)help.textContent='يتم حفظ جميع بيانات البطاقة والتواقيع تلقائيًا في هذا المتصفح، وتبقى محفوظة بعد إغلاق الصفحة أو تحديثها.';
+
+  restore();
+  const sheet=document.getElementById('sheet');
+  sheet?.addEventListener('input',scheduleSave);
+  sheet?.addEventListener('change',scheduleSave);
+  document.addEventListener('click',e=>{
+    if(e.target.closest('.program-kind-tab,#approveSignature,#removeApprovedSignature'))setTimeout(saveNow,0);
+  });
+  window.addEventListener('pagehide',saveNow);
+  window.addEventListener('beforeunload',saveNow);
+  saveNow();
+})();
+</script>
 
 </body>
 </html>
