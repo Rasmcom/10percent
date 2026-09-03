@@ -24,6 +24,28 @@
   const ARABIC_DIGITS="٠١٢٣٤٥٦٧٨٩";
   const toArabicDigits=value=>String(value??"").replace(/\d/g,d=>ARABIC_DIGITS[Number(d)]);
   const option=(value,text)=>{const o=document.createElement("option");o.value=value;o.textContent=toArabicDigits(text??value);return o;};
+  const NONCLASS_SESSION_STORAGE_KEY="rasm_activity_nonclass_sessions_v1";
+  function readNonclassSessions(){
+    try{return JSON.parse(localStorage.getItem(NONCLASS_SESSION_STORAGE_KEY)||"{}")||{}}catch(e){return{}}
+  }
+  function nonclassSessionKey(programId,stage){return `${stage||""}|${programId||""}`;}
+  function savedNonclassSessions(programId,stage){
+    const value=Number(readNonclassSessions()[nonclassSessionKey(programId,stage)]);
+    return value>=1&&value<=50?String(value):"1";
+  }
+  function saveNonclassSessions(programId,stage,value){
+    const n=Math.max(1,Math.min(50,Number(value)||1));
+    try{
+      const data=readNonclassSessions();data[nonclassSessionKey(programId,stage)]=n;
+      localStorage.setItem(NONCLASS_SESSION_STORAGE_KEY,JSON.stringify(data));
+    }catch(e){console.warn("تعذر حفظ عدد حصص الفترة اللاصفية",e);}
+  }
+  function fillEditableNonclassSessions(selected="1"){
+    sessionsEl.innerHTML="";
+    for(let i=1;i<=50;i++)sessionsEl.appendChild(option(String(i),i));
+    sessionsEl.disabled=false;
+    sessionsEl.value=[...sessionsEl.options].some(o=>o.value===String(selected))?String(selected):"1";
+  }
 
   function fillSimpleSelect(el, placeholder, values){
     el.innerHTML="";
@@ -56,6 +78,7 @@
     programEl.innerHTML="";
     fieldEl.innerHTML="";
     sessionsEl.innerHTML="";
+    sessionsEl.disabled=true;
     sourceNote.textContent="";
     if(!stage){
       programEl.disabled=true;
@@ -80,7 +103,7 @@
     }
     programEl.disabled=false;
     fieldEl.appendChild(option("","يُحدد تلقائيًا من البرنامج"));
-    sessionsEl.appendChild(option("","يُحدد تلقائيًا من ملف البرامج"));
+    sessionsEl.appendChild(option("",programKind==="nonclass"?"يبدأ من ١ ويمكن تعديله":"يُحدد تلقائيًا من ملف البرامج"));
 
     gradeEl.innerHTML="";gradeEl.appendChild(option("","اختر الصف"));
     gradeMap[stage].forEach(g=>gradeEl.appendChild(option(g,g)));
@@ -93,13 +116,18 @@
     fieldEl.innerHTML="";sessionsEl.innerHTML="";
     if(!p){
       fieldEl.appendChild(option("","يُحدد تلقائيًا من البرنامج"));
-      sessionsEl.appendChild(option("","يُحدد تلقائيًا من ملف البرامج"));
+      sessionsEl.appendChild(option("",programKind==="nonclass"?"يبدأ من ١ ويمكن تعديله":"يُحدد تلقائيًا من ملف البرامج"));
+      sessionsEl.disabled=true;
       sourceNote.textContent="";
       return;
     }
     fieldEl.appendChild(option(p.field,p.field));fieldEl.value=p.field;
-    const n=p[stageEl.value];
-    sessionsEl.appendChild(option(String(n),n));sessionsEl.value=String(n);
+    if(programKind==="nonclass"){
+      fillEditableNonclassSessions(savedNonclassSessions(p.id,stageEl.value));
+    }else{
+      const n=p[stageEl.value];
+      sessionsEl.appendChild(option(String(n),n));sessionsEl.value=String(n);sessionsEl.disabled=true;
+    }
     sourceNote.textContent=p.note ? toArabicDigits("ملاحظة الدليل: "+p.note) : "";
   }
 
@@ -115,6 +143,10 @@
   programKindTabs.forEach(btn=>btn.addEventListener("click",()=>setProgramKind(btn.dataset.programKind)));
   stageEl.addEventListener("change",()=>{rebuildPrograms();});
   programEl.addEventListener("change",syncProgram);
+  sessionsEl.addEventListener("change",()=>{
+    if(programKind!=="nonclass"||!programEl.value)return;
+    saveNonclassSessions(programEl.value,stageEl.value,sessionsEl.value);
+  });
   eduAdmin.addEventListener("change",()=>{otherAdminWrap.style.display=eduAdmin.value==="أخرى"?"grid":"none";});
 
   const teacherName=document.getElementById("teacherName");
@@ -231,7 +263,7 @@
     clone.querySelector("#nativePrintHeader")?.remove();
     const header=document.createElement("header");header.className="print-header-compact";
     const admin=currentAdminName()||"الإدارة التعليمية",school=(document.getElementById("schoolName")?.value||"").trim()||"اسم المدرسة";
-    header.innerHTML=`<div class="print-brand-row"><div class="print-logo-mark"><img src="${MOE_LOGO_DATA_URI}" alt="شعار وزارة التعليم"></div><div class="print-school-lines"><span class="edu-line">${admin.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}</span><span class="school-line">${school.replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}</span></div></div>`;
+    header.innerHTML=`<div class="print-brand-row"><div class="print-logo-mark"><img src="${MOE_LOGO_DATA_URI}" alt="شعار وزارة التعليم"></div><div class="print-school-lines"><span class="edu-line">${admin.replace(/[&<>\"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}</span><span class="school-line">${school.replace(/[&<>\"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}</span></div></div>`;
     clone.insertBefore(header,clone.firstChild);
     const title=clone.querySelector(".title");if(title)title.textContent="بطاقة تنفيذ برنامج نشاط طلابي*";
 
